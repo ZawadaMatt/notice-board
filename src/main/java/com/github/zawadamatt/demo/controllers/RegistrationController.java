@@ -16,7 +16,7 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistrationPage(String username, String password, String firstName, String lastName) {
-        return "/WEB-INF/index.html";
+        return "redirect:/index.html";
     }
 
 }
