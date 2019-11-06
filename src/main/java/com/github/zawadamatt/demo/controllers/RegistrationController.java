@@ -32,7 +32,13 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistrationPage(String username, String password, String firstName, String lastName) {
-        User newUser = new User(username, passwordEncoder.encode(password), firstName, lastName, true);
+        User newUser = User.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .firstName(firstName)
+                .lastName(lastName)
+                .active(true)
+                .build();
         userRepository.save(newUser);
         log.info("Zapisany użytkownik: " + newUser);
         return "redirect:/index.html";

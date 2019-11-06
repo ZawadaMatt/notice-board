@@ -1,13 +1,18 @@
 package com.github.zawadamatt.demo.model.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
 
 @Entity
 @Table(name = "users")
@@ -26,17 +31,8 @@ public class User {
     private String lastName;
     @Column(nullable = false)
     private Boolean active;
-
-    public User() {
-    }
-
-    public User(String username, String password, String firstName, String lastName, Boolean active) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.active = active;
-    }
+    @OneToMany(mappedBy = "user")
+    List<Advert> advertList;
 
     @Override
     public boolean equals(Object o) {
