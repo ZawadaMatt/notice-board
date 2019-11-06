@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -25,7 +27,18 @@ public class HomePageController {
     private String prepareHomePage(Model model) {
         List<Advert> advertList = advertRepository.findAllByOrderByPostedDesc();
         model.addAttribute("advertList", advertList);
-        return "home-page";
+        return "/WEB-INF/views/home-page.jsp";
+    }
+
+    @PostMapping
+    private String prepareHomePagePost(String title, String description) {
+        Advert newAdvert = Advert.builder()
+                .title(title)
+                .description(description)
+                .posted(LocalDateTime.now())
+                .build();
+
+        return "/WEB-INF/views/home-page.jsp";
     }
 
 }

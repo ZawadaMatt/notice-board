@@ -41,7 +41,7 @@ public class RegistrationController {
                 .build();
         userRepository.save(newUser);
         log.info("Zapisany użytkownik: " + newUser);
-        return "redirect:/index.html";
+        return "WEB-INF/views/login-page.jsp";
     }
 
 }
