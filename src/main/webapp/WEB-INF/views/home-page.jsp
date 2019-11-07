@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 
 <html>
 <head>
@@ -18,12 +19,20 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand">Navbar</a>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+<nav class="navbar navbar-dark bg-primary">
+    <a class="navbar-brand">Notice Board</a>
+    <sec:authorize access="!isAuthenticated()">
+        <form class="form-inline mr-2 mt-3" method="get" action="/login">
+            <button class="btn btn-success" type="submit">Zaloguj</button>
+            <sec:csrfInput/>
+        </form>
+    </sec:authorize>
+    <sec:authorize access="isAuthenticated()">
+        <form class="form-inline mt-3" method="post" action="/logout">
+            <button class="btn btn-success" type="submit">Wyloguj</button>
+            <sec:csrfInput/>
+        </form>
+    </sec:authorize>
 </nav>
 <div class="container">
     <sec:authorize access="isAuthenticated()">
@@ -53,7 +62,6 @@
                     <button class="btn btn-secondary" type="reset">Wyczyść dane</button>
                     <sec:csrfInput/>
                 </form>
-
             </div>
             <div class="col-2"></div>
         </div>
@@ -68,23 +76,25 @@
     <div class="row">
         <div class="col-12" style="padding-bottom: 20px">
             <table class="table">
-                <thead class="thead-light">
+                <thead class="thead-Primary">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Tytuł</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Użytkownik</th>
-                    <th scope="col">Data dodania</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${advertList}" var="advert" varStatus="stat">
                     <tr>
-                        <td>${stat.count}</td>
-                        <td><b>${advert.title}</b></td>
-                        <td>${advert.description}</td>
-                        <td>${advert.user.username}</td>
-                        <td>${advert.posted}</td>
+                        <td>
+                            <div class="media position-relative">
+                                <img src="http://www.thebristolarms.com.au/wp-content/uploads/2018/03/img-not-found.png"
+                                     class="mr-3" alt="..." style="height: 100px; width: 100px">
+                                <div class="media-body">
+                                    <h5 class="mt-0">${advert.title}</h5>
+                                    <p>${advert.description}</p>
+                                    <p>Dodano : ${advert.posted.format(dateFormat)}</p>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -92,7 +102,6 @@
 
         </div>
     </div>
-
 </div>
 </body>
 </html>

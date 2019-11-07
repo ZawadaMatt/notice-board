@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -24,14 +25,15 @@ public class HomePageController {
     }
 
     @GetMapping
-    private String prepareHomePage(Model model) {
+    public String prepareHomePage(Model model) {
         List<Advert> advertList = advertRepository.findAllByOrderByPostedDesc();
+        model.addAttribute("dateFormat", DateTimeFormatter.ofPattern("HH:mm dd:MM:yyyy"));
         model.addAttribute("advertList", advertList);
         return "/WEB-INF/views/home-page.jsp";
     }
 
     @PostMapping
-    private String prepareHomePagePost(String title, String description) {
+    public String prepareHomePagePost(String title, String description) {
         return "/WEB-INF/views/home-page.jsp";
     }
 
