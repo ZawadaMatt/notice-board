@@ -32,12 +32,6 @@ public class HomePageController {
 
     @PostMapping
     private String prepareHomePagePost(String title, String description) {
-        Advert newAdvert = Advert.builder()
-                .title(title)
-                .description(description)
-                .posted(LocalDateTime.now())
-                .build();
-
         return "/WEB-INF/views/home-page.jsp";
     }
 

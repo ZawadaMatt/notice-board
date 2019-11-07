@@ -23,17 +23,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/register").permitAll()
+        http
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/register").anonymous()
                 .antMatchers("/login").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/WEB-INF/views/home-page.jsp")
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/WEB-INF/views/login-page.jsp");
+                .logoutSuccessUrl("/");
     }
 
     @Bean
